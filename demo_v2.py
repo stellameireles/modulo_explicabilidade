@@ -1,6 +1,8 @@
 import streamlit as st
 import streamlit.components.v1 as components
 import json
+from PIL import Image
+
 
 
 def denuncias():
@@ -55,8 +57,19 @@ def explicabilidade():
     components.html(html, height=1600)
     st.experimental_rerun()
 
+def informacoes():
+    st.title("Módulo de Explicabilidade FARO")
+    st.header("Informações Adicionais")
+    clicked_id = st.session_state.get('clicked_id', 'id101')
 
+    image1 = Image.open(f'resources/word_clouds/word_cloud_{clicked_id}.jpg')
+    image2 = Image.open(f'resources/word_clouds/word_cloud_frequency_{clicked_id}.jpg')
 
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image(image1, caption=f"Nuvem de palavras de acordo com os pesos {clicked_id}", use_column_width=True)
+    with col2:
+        st.image(image2, caption=f"Nuvem de palavras de acordo com a quantidade que aparecem {clicked_id}", use_column_width=True)
 
 
 if 'page' not in st.session_state:
@@ -74,6 +87,6 @@ if page == 'Denuncias':
 elif page == 'Explicabilidade':
     explicabilidade()
 elif page ==  'Informacoes Adicionais':
-    denuncias()
+    informacoes()
 
 
